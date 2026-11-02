@@ -1,0 +1,40 @@
+MediaPipe Tasks Vision dependency attribution
+
+This file is maintained by this demo project. It is not an upstream NOTICE file
+and does not modify or extend any upstream license.
+
+Dependency: @mediapipe/tasks-vision
+Version: 1.1.1
+Upstream project: Google AI Edge / MediaPipe
+Repository: https://github.com/google-ai-edge/mediapipe
+Package archive: https://registry.npmjs.org/@mediapipe/tasks-vision/-/tasks-vision-1.1.1.tgz
+Declared package license: Apache-2.0
+
+The accompanying LICENSE is the complete text retrieved from:
+https://github.com/google-ai-edge/mediapipe/blob/v1.1.1/LICENSE
+It includes the additional upstream notice for the UTF utility files. Its
+inclusion does not assert that every repository component is used by this demo.
+
+The inspected npm archive did not contain a separate LICENSE or NOTICE file.
+The SDK JavaScript and WebAssembly files copied into this directory were
+verified against the archive without modification on 2026-10-27. See
+manifest.json for the package integrity value and per-file SHA-256 hashes.
+Retain applicable upstream notices when redistributing these artifacts.
+
+The face_landmarker.task model bundle is a separate download, not part of the
+npm archive. This notice does not assign the SDK's license to that model bundle
+or resolve artifact-specific licensing of every component in that bundle.
+Official model documentation and model cards:
+https://developers.google.com/edge/mediapipe/solutions/vision/face_landmarker
+
+MediaPipe Tasks privacy notice:
+https://developers.google.com/edge/mediapipe/solutions/tasks#mediapipe_tasks_privacy_notice
+
+This demo is an independent project. Attribution does not imply endorsement
+by Google, MediaPipe, or the upstream maintainers.
+
+2026-11-02 candidate review addendum: All three official component model cards
+explicitly state Apache License, Version 2.0. See ../THIRD_PARTY_NOTICES.md
+for exact model-card links and the pinned bundle hash. The earlier paragraph
+records the previous review boundary; this addendum resolves that gap for
+this pinned Face Landmarker bundle.

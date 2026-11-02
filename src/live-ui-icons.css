@@ -1,0 +1,164 @@
+/* Licensed Remix Icon 4.9.1; icons are standalone SVGs, NOT TikTok proprietary assets.
+   TikTok LIVE public screenshots inform placement and hierarchy only. */
+.ui-glyph{display:inline-block;flex:0 0 auto;width:24px;height:24px;background:currentColor;
+ -webkit-mask-image:var(--glyph);mask-image:var(--glyph);
+ -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+ -webkit-mask-position:center;mask-position:center;
+ -webkit-mask-size:contain;mask-size:contain;
+ vertical-align:middle;pointer-events:none}
+.ui-glyph[data-glyph="heart-solid"]{--glyph:url("../assets/ui-icons/heart-3-fill.svg")}
+.ui-glyph[data-glyph="heart"]{--glyph:url("../assets/ui-icons/heart-3-line.svg")}
+.ui-glyph[data-glyph="comment"]{--glyph:url("../assets/ui-icons/chat-3-line.svg")}
+.ui-glyph[data-glyph="gift"]{--glyph:url("../assets/ui-icons/gift-2-line.svg")}
+.ui-glyph[data-glyph="gift-solid"]{--glyph:url("../assets/ui-icons/gift-2-fill.svg")}
+.ui-glyph[data-glyph="group"]{--glyph:url("../assets/ui-icons/group-line.svg")}
+.ui-glyph[data-glyph="join"]{--glyph:url("../assets/ui-icons/user-add-line.svg")}
+.ui-glyph[data-glyph="share"]{--glyph:url("../assets/ui-icons/share-forward-line.svg")}
+.ui-glyph[data-glyph="more"]{--glyph:url("../assets/ui-icons/more-2-fill.svg")}
+.ui-glyph[data-glyph="effects"]{--glyph:url("../assets/ui-icons/magic-line.svg")}
+.ui-glyph[data-glyph="settings"]{--glyph:url("../assets/ui-icons/settings-3-line.svg")}
+.ui-glyph[data-glyph="close"]{--glyph:url("../assets/ui-icons/close-line.svg")}
+.ui-glyph[data-glyph="power"]{--glyph:url("../assets/ui-icons/shut-down-line.svg")}
+.ui-glyph[data-glyph="link"]{--glyph:url("../assets/ui-icons/links-line.svg")}
+.ui-glyph[data-glyph="camera"]{--glyph:url("../assets/ui-icons/camera-line.svg")}
+.ui-glyph[data-glyph="video"]{--glyph:url("../assets/ui-icons/video-on-line.svg")}
+.ui-glyph[data-glyph="check"]{--glyph:url("../assets/ui-icons/check-line.svg")}
+.ui-glyph[data-glyph="play"]{--glyph:url("../assets/ui-icons/play-mini-fill.svg")}
+.ui-glyph[data-glyph="sparkle"]{--glyph:url("../assets/ui-icons/sparkling-2-line.svg")}
+.ui-glyph[data-glyph="live"]{--glyph:url("../assets/ui-icons/live-line.svg")}
+.ui-glyph[data-glyph="down"]{--glyph:url("../assets/ui-icons/arrow-down-s-line.svg")}
+.ui-glyph[data-glyph="trash"]{--glyph:url("../assets/ui-icons/delete-bin-6-line.svg")}
+.ui-glyph[data-glyph="comment-solid"]{--glyph:url("../assets/ui-icons/chat-3-fill.svg")}
+/* Tight, consistent tap geometry for mobile LIVE actions. */
+.live-room :is(.dock-icon,.power-button,.settings-float,.sheet-close){
+  min-width:44px;min-height:44px;display:grid;place-items:center;
+  padding:0;line-height:1}
+.live-dock{bottom:calc(env(safe-area-inset-bottom,0px) + 21px)}
+.live-dock :is(.dock-left,.dock-right){gap:6px}
+.live-dock .dock-icon{
+ width:44px;height:44px;border-radius:50%;color:#fff;
+ background:rgba(23,23,29,.72);border:1px solid rgba(255,255,255,.12);
+ box-shadow:0 1px 8px rgba(0,0,0,.23);backdrop-filter:blur(8px)}
+.live-dock .dock-icon .ui-glyph{width:23px;height:23px}
+.live-dock .dock-icon.chain-icon{background:rgba(23,23,29,.72)}
+.live-dock .dock-icon.chain-icon .ui-glyph{width:23px;height:23px}
+.live-dock .dock-icon:focus-visible,.live-dock .dock-icon:hover{background:rgba(47,47,54,.88)}
+#dockEffects[aria-expanded="true"],#dockComments[aria-pressed="true"]{background:rgba(254,44,85,.18);border-color:rgba(254,44,85,.52)}
+#dockEffects[aria-expanded="true"] .ui-glyph{color:#fff}
+/* Separate preview controls from native-like audience controls. */
+.settings-float{right:10px;top:34%;width:44px;height:44px;
+  border-radius:50%;border:1px solid rgba(255,255,255,.20);
+  background:rgba(23,23,29,.72);backdrop-filter:blur(8px)}
+.settings-float .ui-glyph{width:22px;height:22px;color:#fff}
+.power-button{width:44px;height:44px;margin-left:0;background:transparent;color:#fff}
+.power-button .ui-glyph{width:22px;height:22px}
+.like-chip{height:34px;min-width:52px;padding:0 8px;gap:5px;
+  background:rgba(255,255,255,.96);color:#fe2c55;border-radius:999px;
+  font-variant-numeric:tabular-nums;box-shadow:0 2px 10px #0005}
+.like-chip .ui-glyph{width:18px;height:18px}
+.like-chip.is-liked .ui-glyph{transform:scale(1.08)}
+.host-copy small .ui-glyph{width:12px;height:12px;color:#fff}
+.host-copy small{font-size:10px}
+.host-avatar>i{width:11px;height:11px;border:2px solid #161823;background:#20d5ad}
+.viewer-icons .bubble-avatar{overflow:hidden;background:#2d2d34;border:1.3px solid rgba(255,255,255,.78)}
+.viewer-icons .bubble-avatar img{display:block;width:100%;height:100%;object-fit:cover}
+.viewer-count{min-height:27px;background:rgba(20,20,22,.55)}
+.secondary-head .league-chip{border-radius:999px;background:rgba(18,18,22,.55);border:1px solid rgba(255,255,255,.12);min-height:27px}
+.league-chip .ui-glyph{width:13px;height:13px;color:#ffdf91}
+.fest-chip{display:none!important}
+.room-mode .ui-glyph{width:12px;height:12px;color:rgba(255,255,255,.85)}
+/* Simulated gift sticker remains animated but uses a licensed gift symbol. */
+.gift-figure>.ui-glyph{position:relative;z-index:1;width:48px;height:48px;
+ color:#ffebae;filter:drop-shadow(0 1px 8px rgba(255,215,105,.55))}
+.interaction-pulse .ui-glyph{width:17px;height:17px;color:#ffdf8c}
+.chat-avatar .ui-glyph{width:14px;height:14px}
+.chat-events .chat-avatar .ui-glyph{width:14px;height:14px}
+.floating-announcement .ui-glyph{width:14px;height:14px}
+.float-heart .ui-glyph{width:100%;height:100%;color:inherit}
+/* White configuration sheet follows existing mobile bottom-sheet system. */
+.sheet-close{width:44px;height:44px;border-radius:50%;color:#30313a;background:#e7e7eb}
+.sheet-close .ui-glyph{width:21px;height:21px}
+.sheet-actions button,.event-buttons button{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px}
+.sheet-actions .ui-glyph,.event-buttons .ui-glyph{width:17px;height:17px}
+.sheet-actions button:disabled .ui-glyph{opacity:.65}
+.event-buttons button[data-live-test="gift"] .ui-glyph{color:#b42248}
+.palette .ui-glyph{width:15px;height:15px;color:#fe2c55;opacity:0}
+.palette.active .ui-glyph{opacity:1}
+.advanced-tools summary::after{content:"";width:17px;height:17px;flex:0 0 17px;
+ background:#8b8d98;transform:none;
+ -webkit-mask:url("../assets/ui-icons/arrow-down-s-line.svg") center/contain no-repeat;
+ mask:url("../assets/ui-icons/arrow-down-s-line.svg") center/contain no-repeat;
+ transition:transform .16s ease}
+.advanced-tools[open] summary::after{transform:rotate(180deg)}
+/* Hit target preservation and narrow-screen action hierarchy. */
+@media(max-width:420px){
+ .live-dock .dock-icon{width:44px;height:44px}
+ .dock-left,.dock-right{gap:4px!important}
+ .settings-float{right:0}
+ .power-button{width:44px;height:44px}
+ .viewer-icons{display:none!important}
+ .sheet-actions .ui-glyph{width:15px;height:15px}
+}
+@media(min-width:421px){.viewer-icons{display:flex!important}}
+@media(max-width:330px){
+  #dockLive{display:none}
+  .live-dock .dock-icon{width:44px;height:44px}
+  .live-dock{gap:4px}
+  .dock-left,.dock-right{gap:3px!important}
+  .sheet-actions .ui-glyph{display:none}
+}
+@media(prefers-reduced-motion:reduce){.ui-glyph{transition:none!important}}
+
+/* V10.1 selective LIVE color treatment, based on the public TikTok LIVE
+   interface: colorful gifts/co-hosting and red reactions; comments, share,
+   settings and other utility actions remain neutral. No proprietary assets. */
+.ui-glyph[data-glyph="gift-color"]{
+  --glyph:none;
+  background:transparent url("../assets/ui-icons/iconpark-gift-pink.svg") center/contain no-repeat;
+  -webkit-mask-image:none;mask-image:none;
+}
+#dockGift .ui-glyph[data-glyph="gift-color"]{
+  width:29px;height:29px;
+  filter:drop-shadow(0 1px 3px rgba(255,93,153,.38));
+}
+#dockGift{border-color:rgba(255,112,166,.33)!important}
+#dockGift.is-gifting{
+  background:rgba(109,33,72,.85)!important;
+  border-color:rgba(255,150,196,.88)!important;
+  box-shadow:0 0 0 2px rgba(254,44,85,.16),0 2px 10px rgba(0,0,0,.3);
+}
+#dockGuests .ui-glyph,
+.join-banner .ui-glyph[data-glyph="join"]{
+  background:linear-gradient(115deg,#ff72b5 0%,#fe2c55 42%,#40d6f4 43%,#75eff7 100%);
+}
+#dockGuests .ui-glyph{width:25px;height:25px}
+#dockEffects .ui-glyph,
+.sheet-actions [data-action="simulate"] .ui-glyph{
+  background:linear-gradient(145deg,#64f2ed 5%,#26d5ee 42%,#fa5baf 66%,#ff94c8 100%);
+}
+#dockEffects[aria-expanded="true"] .ui-glyph{
+  background:linear-gradient(145deg,#98fff7 0%,#25f4ee 45%,#fe2c55 56%,#ff9ed5 100%);
+}
+#likeButton .ui-glyph[data-glyph="heart-solid"]{
+  background:linear-gradient(155deg,#ff719a 0%,#fe2c55 68%,#e41647 100%);
+}
+#likeButton.is-liked .ui-glyph{
+  filter:drop-shadow(0 0 3px rgba(254,44,85,.34));
+}
+.gift-figure>.ui-glyph[data-glyph="gift-color"]{
+  width:66px;height:66px;
+  filter:drop-shadow(0 6px 12px rgba(255,54,134,.36))
+    drop-shadow(0 0 11px rgba(255,181,222,.35));
+  animation:gift-levitate 1500ms ease-in-out infinite alternate;
+}
+.gift-orbit{border-color:rgba(255,173,213,.58)}
+.gift-orbit.two{border-color:rgba(255,225,157,.44)}
+.event-buttons button[data-live-test="gift"] .ui-glyph{width:19px;height:19px}
+.chat-avatar.action-avatar .ui-glyph[data-glyph="gift-color"]{width:16px;height:16px}
+.interaction-pulse .ui-glyph[data-glyph="sparkle"]{
+  background:linear-gradient(140deg,#fff0af,#ff9fd9,#62eaf5);
+}
+@media(prefers-reduced-motion:reduce){
+ .gift-figure>.ui-glyph[data-glyph="gift-color"]{animation:none!important}
+}
+
