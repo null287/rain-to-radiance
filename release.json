@@ -1,7 +1,8 @@
 {
-  "version": "0.10.3",
+  "version": "0.10.4",
   "release": "2026-11-02",
   "source": "https://github.com/null287/rain-to-radiance",
   "mode": "local-on-device-inference",
-  "original_site_zip_sha256": "029056d4b464bb10f664e4477090791f3d39e4754a689ad561f34984cc13b7a7"
+  "original_site_zip_sha256": "029056d4b464bb10f664e4477090791f3d39e4754a689ad561f34984cc13b7a7",
+  "camera_selection": true
 }

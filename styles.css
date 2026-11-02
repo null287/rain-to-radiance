@@ -826,3 +826,9 @@ button:focus-visible,input:focus-visible{outline:2px solid #25f4ee;outline-offse
 @media(max-width:345px){
   .firework-preview-fields{grid-template-columns:1fr}
 }
+
+.camera-picker>label{display:block;font-size:14px;margin:12px 0 8px}
+.camera-device-row{display:flex;gap:8px;align-items:stretch;margin-bottom:8px}
+.camera-device-row select{min-width:0;flex:1;border:1px solid #c6c6ce;border-radius:10px;padding:10px 8px;font:inherit;background:#fff;color:#17171c}
+.camera-device-row button{min-height:44px;padding:8px 12px;border:1px solid #c6c6ce;border-radius:10px;background:#fff;color:#17171c;font-size:14px;white-space:nowrap}
+.camera-picker>p{font-size:12px;line-height:1.6;color:#595962;margin:8px 0 14px}
