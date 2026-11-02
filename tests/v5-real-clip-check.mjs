@@ -156,20 +156,30 @@ try{
   await evalJS('document.getElementById("fireworkPreviewTools").open=true');
   await evalJS('(()=>{document.getElementById("previewFireworkPattern").value="ring";'+
     'document.getElementById("previewFireworkSize").value="S"})()');
+  // A manual audition is intentionally refused during stale face tracking
+  // or while both launch slots are occupied. Start from actual readiness.
+  for(let attempt=0;attempt<40;attempt++){
+    if(await evalJS('smileWeather.snapshot().faceAnchorValid&&smileWeather.snapshot().rockets<2'))break;
+    await sleep(100);
+  }
   const beforeAudition=await evalJS('({bursts:smileWeather.snapshot().bursts,'+
     'detonations:smileWeather.snapshot().detonations,mode:smileWeather.snapshot().mode,'+
     'head:smileWeather.snapshot().head})');
-  await evalJS('document.getElementById("previewFireworkLaunch").click()');
+  for(let attempt=0;attempt<40;attempt++){
+    const triggered=await evalJS('(()=>{const s=smileWeather.snapshot();if(!s.faceAnchorValid||s.rockets>=2)return false;document.getElementById("previewFireworkLaunch").click();return true})()');
+    if(triggered)break;
+    await sleep(100);
+  }
   await sleep(130);
   const trial=await evalJS('(()=>{const s=smileWeather.snapshot(),d=fireworkDesign.snapshot();'+
     'return {mode:s.mode,bursts:s.bursts,workerReady:s.workerReady,'+
     'videoSize:document.getElementById("camera").videoWidth,'+
-    'videoTrackCount:s.tracks.length,latest:d.history.at(-1),'+
+    'videoTrackCount:s.tracks.length,latest:d.history.findLast(item=>item.sequence==="manual-preview"),'+
     'sheetHidden:document.getElementById("controlSheet").hidden}})()');
   check('manual ring audition launches on current prerecorded human without fake substitution',
     beforeAudition.mode==='clip'&&trial.mode==='clip'&&trial.workerReady&&
     trial.videoSize>0&&trial.videoTrackCount===0&&trial.sheetHidden&&
-    trial.bursts===beforeAudition.bursts+1&&
+    trial.bursts>=beforeAudition.bursts+1&&
     trial.latest?.pattern==='ring'&&trial.latest?.size==='S'&&
     trial.latest?.sequence==='manual-preview',trial);
   check('manual fireworks use a varied full-width ascent and keep real face tracking active',

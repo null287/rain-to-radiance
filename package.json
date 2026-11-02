@@ -1,11 +1,11 @@
 {
   "name": "rain-to-radiance",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test tests/logic.test.mjs tests/experience.test.mjs tests/overlay-events.test.mjs tests/frame-budget.test.mjs tests/face-outline.test.mjs tests/face-projection.test.mjs tests/expression-responsiveness.test.mjs tests/demo-personas.test.mjs tests/vfx-filmic.test.mjs tests/firework-cadence.test.mjs tests/laugh-temporal.test.mjs tests/firework-variation.test.mjs tests/launch-depth.test.mjs tests/idle-preview.test.mjs",
+    "test": "node --test tests/logic.test.mjs tests/experience.test.mjs tests/overlay-events.test.mjs tests/frame-budget.test.mjs tests/face-outline.test.mjs tests/face-projection.test.mjs tests/expression-responsiveness.test.mjs tests/demo-personas.test.mjs tests/vfx-filmic.test.mjs tests/firework-cadence.test.mjs tests/laugh-temporal.test.mjs tests/firework-variation.test.mjs tests/launch-depth.test.mjs tests/idle-preview.test.mjs tests/camera-devices.test.mjs",
     "test:browser": "node tests/browser-smoke.mjs",
     "test:mobile": "node tests/v3-live-mobile-check.mjs",
     "test:overlay": "node tests/v4-live-overlay-check.mjs",

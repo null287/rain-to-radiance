@@ -7,7 +7,7 @@ import {fileURLToPath} from 'node:url';
 const dir=dirname(fileURLToPath(import.meta.url));
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const browser=spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',[
- '--headless=new','--no-first-run','--no-default-browser-check',
+ '--headless=new','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows','--no-first-run','--no-default-browser-check',
  '--disable-extensions','--disable-sync','--disable-background-networking',
  '--remote-debugging-port=9401','--user-data-dir='+join(dir,'browser-profile-v9-1'),
  '--window-size=450,930','http://127.0.0.1:8896/'
@@ -64,6 +64,7 @@ try{
   result.screenshots.push(path);
  };
  await send('Page.enable');await send('Runtime.enable');await send('Log.enable');
+ await send('Emulation.setFocusEmulationEnabled',{enabled:true});
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  let ready=false;
  for(let i=0;i<50;i++){

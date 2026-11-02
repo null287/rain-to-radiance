@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#050505">
 <title>Rain to Radiance · LIVE AR Preview</title>
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./styles.css?v=0.10.4">
 <link rel="stylesheet" href="./src/live-ui-icons.css">
 </head>
 <body>
@@ -139,6 +139,11 @@
       <button id="sampleSmile" type="button">微笑样片</button>
       <button id="sampleLaugh" type="button">大笑样片</button>
     </div>
+    <details class="advanced-tools camera-picker" id="cameraPicker"><summary>选择摄像头 <span>内置 / 手机共享</span></summary>
+      <label for="cameraDevice">摄像头设备</label>
+      <div class="camera-device-row"><select id="cameraDevice" aria-label="摄像头设备"><option value="">自动选择摄像头</option></select><button id="refreshCameras" type="button">刷新列表</button></div>
+      <p>手机共享连接后刷新列表，选择“相机分享”。首次需允许摄像头权限才能显示完整设备名称；切换设备会重新开启体验。</p>
+    </details>
     <details class="advanced-tools"><summary>使用自己的视频文件 <span>仅本地读取</span></summary><label class="local-video-input">本地视频进行真人面部追踪
       <input id="videoPicker" type="file" accept="video/mp4,video/webm,video/ogg,video/quicktime">
       <span>MP4 / WebM · 仅本地处理</span>
@@ -210,7 +215,7 @@
     <p class="sheet-privacy">只使用摄像头画面做人脸动作识别，不读取麦克风；停止后释放视频轨道。模拟模式不是实际人脸测试。</p>
   </aside>
 </main>
-<script type="module" src="./src/app.js"></script>
+<script type="module" src="./src/app.js?v=0.10.4"></script>
 <script type="module" src="./src/live-ui.js"></script>
 </body>
 </html>

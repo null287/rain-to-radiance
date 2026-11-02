@@ -1,4 +1,4 @@
-# Rain to Radiance · V10.3
+# Rain to Radiance · V10.4
 
 [Open the live HTTPS demo](https://null287.github.io/rain-to-radiance/) · [Vibe Coding retrospective](VIBECODING.md)
 
@@ -45,3 +45,7 @@ See `THIRD_PARTY_NOTICES.md`, `vendor/LICENSE`, `vendor/NOTICE` and both icon li
 ## Public deployment layout
 
 `main` contains reviewable source and pinned dependency preparation; `gh-pages` contains the reviewed static runtime including unmodified SDK/WASM/model files and licensed sample media. The live site requests the camera only after an explicit click and processes frames on the device. No external inference API or user-account integration is required.
+
+## Camera selection
+
+For a connected phone webcam, open Settings → 选择摄像头 → 刷新列表 and select the shared camera, then start the camera. The device must already be enabled/connected in Windows or macOS. Selection uses an exact device ID and never silently substitutes a different camera. Device IDs remain in memory, and audio capture stays disabled. Some browsers require camera permission before all device names are shown.

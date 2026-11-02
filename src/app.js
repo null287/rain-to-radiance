@@ -1,3 +1,4 @@
+import {cameraConstraints,cameraChoices} from './camera-devices.js';
 import {ExpressionController} from './interaction.js';
 import {PhysicsEngine} from './physics.js';
 import {faceOutlineFromLandmarks} from './face-outline.js';
@@ -238,6 +239,24 @@ async function startClip(file=null){
 function failCamera(message){
   idle();status(message,true);$('sourceTag').textContent='摄像头体验中断';
 }
+async function refreshCameraChoices(report=true){
+  const picker=$('cameraDevice');
+  if(!navigator.mediaDevices?.enumerateDevices){if(report)status('当前浏览器无法列出摄像头，请使用 HTTPS 与最新版浏览器。',true);return;}
+  try{
+    const previous=picker.value;
+    const choices=cameraChoices(await navigator.mediaDevices.enumerateDevices());
+    picker.replaceChildren(new Option('自动选择摄像头',''));
+    for(const item of choices)picker.add(new Option(item.label,item.id));
+    if(choices.some(item=>item.id===previous))picker.value=previous;
+    if(report)status(choices.length?'已刷新摄像头列表。连接手机共享后，选择“相机分享”，再开启摄像头。':'暂未发现可用摄像头，请连接设备并允许摄像头权限。',!choices.length);
+  }catch{if(report)status('无法读取摄像头列表，请检查浏览器权限后重试。',true);}
+}
+$('refreshCameras').addEventListener('click',()=>refreshCameraChoices());
+$('cameraDevice').addEventListener('change',()=>{
+  if(mode==='camera')startCamera();
+  else status('摄像头已选择。点击“开启摄像头”开始真实表情体验。');
+});
+navigator.mediaDevices?.addEventListener?.('devicechange',()=>refreshCameraChoices(false));
 async function startCamera(){
   cleanup();mode='loading';stage.dataset.mode=mode;$('simulationControls').hidden=true;
   setLoadingControls(true);
@@ -248,9 +267,10 @@ async function startCamera(){
   try{
     if(!isSecureContext||!navigator.mediaDevices?.getUserMedia)throw new Error('请从本机 localhost 或 HTTPS 地址打开，直接双击 HTML 无法使用摄像头。');
     await createLandmarker(token);if(token!==epoch)return;
-    const incoming=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:960},height:{ideal:720},frameRate:{ideal:24,max:30}},audio:false});
+    const incoming=await navigator.mediaDevices.getUserMedia(cameraConstraints($('cameraDevice').value));
     if(token!==epoch){incoming.getTracks().forEach(t=>t.stop());return;}
     stream=incoming;video.srcObject=stream;await video.play();if(token!==epoch)return;
+    await refreshCameraChoices(false);if(token!==epoch)return;
     stream.getVideoTracks().forEach(track=>{
       track.addEventListener('ended',()=>{if(token===epoch)failCamera('摄像头连接已断开。请确认设备连接后重新开启；可以先使用模拟体验。');});
       track.addEventListener('mute',()=>{if(token===epoch)status('摄像头暂时没有提供画面，请检查设备连接或隐私开关。',true);});
@@ -264,7 +284,8 @@ async function startCamera(){
   }catch(error){
     if(token!==epoch)return;
     const labels={NotAllowedError:'摄像头权限未开启。请在浏览器地址栏允许摄像头，然后重试。',NotFoundError:'没有找到摄像头。请检查设备连接，或先试模拟体验。',NotReadableError:'摄像头当前无法读取，可能被其他应用占用或设备断开。请检查后重试。',OverconstrainedError:'摄像头不支持当前画面配置，请换设备或使用模拟体验。'};
-    failCamera(labels[error.name]||error.message||'摄像头开启失败，请重试。');
+    await refreshCameraChoices(false);if(token!==epoch)return;
+    failCamera((labels[error.name]||error.message||'摄像头开启失败，请重试。')+' 可在设置→选择摄像头切换到手机共享设备。');
   }
 }
 async function capture(now){

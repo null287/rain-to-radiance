@@ -105,7 +105,15 @@ try{
   check('old comment transitions without an abrupt removal',
     feedResult.reduceMotion?feedResult.departing===0:feedResult.departing>0,feedResult);
   await sleep(330);
-  const departure=await evalJS('({initial:window.__departingProbe.map(node=>({connected:node.isConnected,animations:node.getAnimations().map(a=>({state:a.playState,time:a.currentTime}))})),current:document.querySelectorAll(".chat-feed>[data-departing=true]").length})');
+  let departure;
+  // Browser animation time can lag wall-clock time during concurrent rendering.
+  // Require eventual real node cleanup instead of assuming 330ms wall time
+  // always contains the complete 210ms compositor animation.
+  for(let attempt=0;attempt<12;attempt++){
+    departure=await evalJS('({initial:window.__departingProbe.map(node=>({connected:node.isConnected,animations:node.getAnimations().map(a=>({state:a.playState,time:a.currentTime}))})),current:document.querySelectorAll(".chat-feed>[data-departing=true]").length})');
+    if(departure.initial.every(node=>!node.connected))break;
+    await sleep(100);
+  }
   check('departed comment cleans up after animation',departure.initial.every(node=>!node.connected),departure);
   await evalJS('document.getElementById("stop").click()');
  }
