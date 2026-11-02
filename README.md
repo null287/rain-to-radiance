@@ -1,4 +1,4 @@
-# Rain to Radiance · V10.4
+# Rain to Radiance · V10.5
 
 [Open the live HTTPS demo](https://null287.github.io/rain-to-radiance/) · [Vibe Coding retrospective](VIBECODING.md)
 
@@ -49,3 +49,7 @@ See `THIRD_PARTY_NOTICES.md`, `vendor/LICENSE`, `vendor/NOTICE` and both icon li
 ## Camera selection
 
 For a connected phone webcam, open Settings → 选择摄像头 → 刷新列表 and select the shared camera, then start the camera. The device must already be enabled/connected in Windows or macOS. Selection uses an exact device ID and never silently substitutes a different camera. Device IDs remain in memory, and audio capture stays disabled. Some browsers require camera permission before all device names are shown.
+
+## Landing preview collision
+
+The muted landing clip uses measured 36-point face contours extracted from its own licensed video frames. They replay at the video timestamp through the same cover projection and collision engine. No physical camera or realtime inference Worker starts on page load. `assets/preview-face-track.js` records the stock-video source, dimensions and 25fps sampling. The interactive sample/camera buttons continue to perform live frame inference.

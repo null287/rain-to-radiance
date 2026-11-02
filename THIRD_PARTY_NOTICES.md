@@ -29,3 +29,6 @@ Rain to Radiance is an independent browser interaction prototype. It is not an o
 - Laugh/home preview clip: https://www.pexels.com/video/5700089/ ; locally cropped/resized video and poster still.
 - Ten audience photo sources: `assets/audience-avatars/SOURCES.md`; locally cropped/resized thumbnails.
 - Pexels permits website/app use and modification, and prohibits implied endorsement. The pictured people are stock-media models, not actual accounts or users of this project. These media remain governed by Pexels terms, separately from original source code and icon licenses.
+
+### Derived landing-preview geometry
+`assets/preview-face-track.js` contains normalized face-oval tracks measured from the credited Pexels 5700089 clip using the pinned Face Landmarker. It is derived from that licensed preview, not a private-camera recording or an identity database. The video and its transformed preview remain subject to Pexels terms.

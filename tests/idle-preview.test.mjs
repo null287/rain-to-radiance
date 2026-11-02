@@ -66,3 +66,14 @@ test('idle preview is separate from real AR controllers and can reset without le
   assert.equal(a.snapshot().particles,0);
   assert.equal(a.snapshot().enabled,false);
 });
+
+test('landing preview replays measured face geometry and produces real contour collisions',()=>{
+  const engine=new IdlePreviewEngine();let hits=0,outlinePoints=0;
+  for(let i=0;i<365;i++){
+    const t=i/30;
+    const view=engine.update({time:t,now:t*1000,dt:1/30,width:390,height:844,palette:'gold',quality:'balanced'});
+    hits=Math.max(hits,view.collisions||0);outlinePoints=Math.max(outlinePoints,view.outlinePoints||0);
+  }
+  assert.equal(outlinePoints,36,'same actual facial contour, not a centered body proxy');
+  assert.ok(hits>0,'the automatic sample must visibly interact with the real recorded face');
+});

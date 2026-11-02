@@ -1,3 +1,4 @@
+import {previewHeadAt} from './preview-face.js';
 /**
  * Muted, prerecorded landing-page preview only.
  *
@@ -39,7 +40,7 @@ export class IdlePreviewEngine {
     this.lastVideoTime=null;this.lastLaunchTime=-Infinity;
     this.rainEnvelope=0;
     this.bursts=0;this.loopCount=this.loopCount||0;
-    this.phase='smile';this.enabled=false;
+    this.phase='smile';this.enabled=false;this.head=null;
   }
   update({time=0,now=0,dt=1/30,width=390,height=844,
     palette='gold',quality='balanced',reduceMotion=false}={}){
@@ -57,7 +58,13 @@ export class IdlePreviewEngine {
     const delta=clamp(finite(dt)?dt:1/30,.001,.08);
     this.rainEnvelope=advanceRain(this.rainEnvelope,
       this.phase==='smile'?.88:0,delta);
-    this.physics.update(delta,null,this.rainEnvelope);
+    const nextHead=previewHeadAt(videoTime,width,height);
+    if(nextHead&&this.head){
+      nextHead.vx=clamp((nextHead.cx-this.head.cx)/delta,-650,650);
+      nextHead.vy=clamp((nextHead.cy-this.head.cy)/delta,-650,650);
+    }
+    this.head=nextHead;
+    this.physics.update(delta,this.head,this.rainEnvelope);
     const available=this.physics.maxParticles-this.physics.particles.length;
     if(!reduceMotion&&this.phase==='laugh'&&
       videoTime>=PREVIEW_LAUGH_START_FIREWORK&&
@@ -88,6 +95,9 @@ export class IdlePreviewEngine {
       bursts:this.bursts,detonations:this.flight.detonations,
       rainEnvelope:this.rainEnvelope,particles:this.physics.particles.length,
       loops:this.loopCount,flights:this.flight.flights.length,
+      collisions:this.physics.collisionCount,hasFace:Boolean(this.head),
+      outlinePoints:this.head?.outline?.length||0,
+      collisionSource:'measured-prerecorded-face-contour',
       source:'prerecorded-timed-visual-preview-not-face-inference'
     };
   }
