@@ -14,7 +14,7 @@ import {
 } from './firework-variation.js';
 import {advanceRain} from './transition.js';
 import {FrameBudget} from './frame-budget.js';
-import {IdlePreviewEngine} from './idle-preview.js';
+import {IdlePreviewEngine} from './idle-preview.js?v=0.10.5';
 import {drawProxy} from './vfx-v2.js';
 import {drawAmbient,drawParticlesV2,drawFlightsV2} from './vfx-filmic.js';
 
@@ -455,9 +455,9 @@ function tick(now){
       drawAmbient(ctx,{mode:'idle',width,height,now,palette,rainEnvelope:preview.rainEnvelope});
       drawParticlesV2(ctx,{
         particles:idlePreviewEngine.physics.particles,
-        collisions:[],impacts:idlePreviewEngine.impacts,
+        collisions:idlePreviewEngine.physics.lastCollisions,impacts:idlePreviewEngine.impacts,
         rings:idlePreviewEngine.rings,
-        now,dt,head:null,mode:'idle',palette,
+        now,dt,head:idlePreviewEngine.head,mode:'clip',palette,
         rainEnvelope:preview.rainEnvelope,quality
       });
       drawFlightsV2(ctx,{
@@ -465,7 +465,7 @@ function tick(now){
       });
       stage.dataset.previewPhase=preview.phase;
       $('idlePreviewCueText').textContent=preview.phase==='smile'
-        ?'自动预览 · 微笑雨幕':'自动预览 · 大笑烟花';
+        ?'自动预览 · 微笑雨幕':preview.collisions>0?'自动预览 · 烟花碰撞反弹':'自动预览 · 大笑烟花';
       lastPaintMode='preview';
       return;
     }
