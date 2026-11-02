@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Security-Policy" content="connect-src &apos;self&apos;">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="connect-src 'self'">
+<meta name="theme-color" content="#050505">
+<title>Rain to Radiance · LIVE AR Preview</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./src/live-ui-icons.css">
+</head>
+<body>
+<main id="stage" class="live-room stage" data-mode="idle" data-palette="gold" data-preview="live" aria-label="实时互动特效直播预览">
+  <video id="idlePreviewVideo" src="./assets/pexels-5700089-laugh-portrait.mp4"
+    poster="./assets/preview-poster-laugh.jpg" autoplay muted loop playsinline
+    preload="auto" aria-hidden="true"></video>
+  <video id="camera" autoplay playsinline muted aria-label="实时摄像头或本地人像样片视频"></video>
+  <canvas id="scene" aria-label="实时雨幕、烟花和头部物理碰撞画布"></canvas>
+  <div class="video-shade" aria-hidden="true"></div>
+  <div id="overlayEffects" class="overlay-effects" aria-live="off" aria-label="直播事件动画层">
+    <div id="floatHearts" class="float-hearts" aria-hidden="true"></div>
+    <div id="joinBanner" class="join-banner" hidden><span class="ui-glyph" data-glyph="join" aria-hidden="true"></span><span id="joinText">模拟观众进入</span><small>演示</small></div>
+    <div id="giftAlert" class="gift-alert" hidden>
+      <div class="gift-figure" aria-hidden="true">
+        <span class="gift-orbit one"></span><span class="gift-orbit two"></span>
+        <span class="ui-glyph" data-glyph="gift-color"></span>
+      </div>
+      <div class="gift-meta"><small>SIMULATED LIVE GIFT</small><strong id="giftName">星愿</strong><span id="giftSender">演示观众 · x1</span></div>
+      <span class="gift-count" id="giftCount">x1</span>
+    </div>
+    <div id="interactionPulse" class="interaction-pulse" hidden><span class="ui-glyph" data-glyph="sparkle"></span><span id="interactionText">头部碰撞</span></div>
+  </div>
+
+  <header class="live-head" aria-label="直播间信息">
+    <div class="host-area">
+      <div class="host-avatar" aria-hidden="true"><span class="host-avatar-media"><img id="hostAvatar" src="./assets/preview-poster-862-later.jpg" alt=""></span><i></i></div>
+      <div class="host-copy">
+        <strong>rain_radiance</strong>
+        <small><span class="ui-glyph" data-glyph="live" aria-hidden="true"></span> LIVE AR · 预览</small>
+      </div>
+      <button id="likeButton" class="like-chip" aria-label="模拟点赞并显示浮动爱心"><span class="ui-glyph" data-glyph="heart-solid" aria-hidden="true"></span><span id="likeCount">0</span></button>
+    </div>
+    <div class="right-head">
+      <div class="viewer-icons" aria-hidden="true"><span class="bubble-avatar a1"><img src="./assets/audience-avatars/portrait-2709388.jpg" alt="" loading="lazy"></span><span class="bubble-avatar a2"><img src="./assets/audience-avatars/portrait-30494318.jpg" alt="" loading="lazy"></span></div>
+      <span class="viewer-count" title="没有连接真实直播观众">预览</span>
+      <button id="powerButton" class="power-button" aria-label="结束体验并恢复初始画面"><span class="ui-glyph" data-glyph="power" aria-hidden="true"></span></button>
+    </div>
+  </header>
+
+  <div class="secondary-head" aria-label="直播状态与活动">
+    <div class="league-chip"><span class="ui-glyph" data-glyph="sparkle" aria-hidden="true"></span><strong>LIVE Effect Lab</strong><span class="muted-label">/ AR</span></div>
+  </div>
+  <div class="room-mode" aria-label="演示环境"><span class="online-point"></span><span id="sourceTag">自动循环预览 · 非实时识别</span><span class="ui-glyph" data-glyph="play" aria-hidden="true"></span></div>
+
+  <button id="settingsButton" class="settings-float" aria-label="打开特效控制与调试设置" aria-expanded="false"><span class="ui-glyph" data-glyph="settings" aria-hidden="true"></span></button>
+
+  <button id="exitClean" class="clean-exit" type="button" aria-label="退出纯特效展示并恢复直播场景" hidden>返回直播场景</button>
+
+  <div id="idlePreviewCue" class="idle-preview-cue" aria-hidden="true">
+    <span class="idle-preview-dot"></span><span id="idlePreviewCueText">自动预览 · 微笑雨幕</span>
+    <small>预录样片 / 非实时识别</small>
+  </div>
+  <div id="welcome" class="welcome" aria-label="进入互动体验">
+    <div class="welcome-copy">
+      <p class="welcome-kicker">独立实时 AR 特效 · 非官方直播</p>
+      <p id="welcomeError" class="camera-error" hidden></p>
+      <h1>微笑下雨，大笑绽放烟花</h1>
+      <p class="welcome-explain">用头部触碰火花，改变它的飞行轨迹</p>
+    </div>
+    <button id="startCamera" class="big-action" type="button">开启摄像头，查看 AR 效果</button>
+    <div class="sample-actions" role="group" aria-label="播放微笑或大笑真人样片">
+      <button id="startClip" class="alt-action" type="button">播放微笑样片</button>
+      <button id="startLaughClip" class="alt-action" type="button">播放大笑样片</button>
+    </div>
+    <button id="simulate" class="simulation-link" type="button" hidden>仅调试：模拟表情和物理</button>
+    <span class="welcome-disclaimer">自动循环：同一人物预录样片及特效演示 · 摄像头仅在主动开启后使用</span>
+  </div>
+
+  <div id="simulationControls" class="simulation-controls" hidden>
+    <div class="sim-label"><i></i> 模拟表情 <span>· 不使用摄像头</span></div>
+    <div class="segments" role="group" aria-label="模拟表情切换">
+      <button type="button" data-expression="neutral" aria-pressed="true">自然<kbd>1</kbd></button>
+      <button type="button" data-expression="smile" aria-pressed="false">微笑<kbd>2</kbd></button>
+      <button type="button" data-expression="laugh" aria-pressed="false">大笑<kbd>3</kbd></button>
+    </div>
+    <div class="sim-intensity">
+      <label for="simLaughIntensity">模拟大笑幅度</label>
+      <input id="simLaughIntensity" type="range" min="0" max="100" step="5" value="55" aria-label="仅模拟模式的大笑表情夸张程度，不是麦克风音量">
+      <output id="simIntensityText" for="simLaughIntensity">明显</output>
+    </div>
+  </div>
+  <div class="effect-state" aria-label="当前实时特效">
+    <div class="effect-state-left"><i></i><span id="stateCaption">STANDBY</span><strong id="stateTitle">等待开始</strong></div>
+    <span id="stageHint" class="effect-state-hint">SMILE → RAIN<br>LAUGH → FIREWORK</span>
+  </div>
+  <div id="metrics" class="metrics" hidden><span id="metricText"></span></div>
+
+  <section class="chat-feed" id="chatFeed" aria-label="动态演示评论和互动事件，非真实直播">
+    <div class="floating-announcement" id="liveTicker" hidden><span class="ui-glyph" data-glyph="sparkle" aria-hidden="true"></span><span>Rain to Radiance</span><span class="announce-suffix">互动预览 · SIM</span></div>
+    <div id="chatEvents" class="chat-events" aria-live="polite" aria-relevant="additions text">
+      <div class="chat-line chat-placeholder"><span class="chat-avatar system-avatar"><span class="ui-glyph" data-glyph="sparkle" aria-hidden="true"></span></span><div class="chat-copy"><span class="chat-label">系统提示 <small>· 模拟</small></span><span class="chat-body">开始体验后，评论与礼物事件会动态出现。</span></div></div>
+    </div>
+  </section>
+
+  <nav class="live-dock" aria-label="直播操作">
+    <div class="dock-left">
+      <button id="dockLive" class="dock-icon" type="button" aria-label="查看当前演示状态" hidden><span class="ui-glyph" data-glyph="live" aria-hidden="true"></span></button>
+      <button id="dockGift" class="dock-icon" type="button" aria-label="模拟发送一份直播礼物"><span class="ui-glyph" data-glyph="gift-color" aria-hidden="true"></span></button>
+      <button id="dockGuests" class="dock-icon" type="button" aria-label="模拟一位观众进入直播间"><span class="ui-glyph" data-glyph="group" aria-hidden="true"></span></button>
+    </div>
+    <div class="dock-right">
+      <button id="dockComments" class="dock-icon" type="button" aria-label="隐藏或显示演示评论" aria-pressed="false"><span class="ui-glyph" data-glyph="comment" aria-hidden="true"></span></button>
+      <button id="dockShare" class="dock-icon" type="button" aria-label="查看分享方式"><span class="ui-glyph" data-glyph="share" aria-hidden="true"></span></button>
+      <button id="dockEffects" class="dock-icon" type="button" aria-label="打开特效和表情控制" aria-expanded="false"><span class="ui-glyph" data-glyph="effects" aria-hidden="true"></span></button>
+      <button id="dockMore" class="dock-icon" type="button" aria-label="打开更多体验选项"><span class="ui-glyph" data-glyph="more" aria-hidden="true"></span></button>
+    </div>
+  </nav>
+  <div class="phone-home-indicator" aria-hidden="true"></div>
+  <div id="uiToast" class="ui-toast" role="status" aria-live="polite" hidden></div>
+
+  <div id="sheetShade" class="sheet-shade" hidden></div>
+  <aside id="controlSheet" class="control-sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div class="sheet-heading"><div><span class="sheet-kicker">LIVE EFFECT / CONTROL</span><h2 id="sheetTitle">实时特效设置</h2></div><button id="sheetClose" class="sheet-close" aria-label="关闭面板" type="button"><span class="ui-glyph" data-glyph="close" aria-hidden="true"></span></button></div>
+    <p class="sheet-note">微笑触发雨幕；持续大笑时，一束束烟花依次升空绽放。本地独立原型，不连接真实直播。</p>
+    <div class="preview-presets" role="group" aria-label="直播场景与纯特效展示模式">
+      <button id="livePreset" class="is-active" type="button" aria-pressed="true">直播场景</button>
+      <button id="cleanPreset" type="button" aria-pressed="false">纯特效展示</button>
+    </div>
+    <div class="sheet-actions">
+      <button type="button" data-action="camera" class="sheet-primary"><span class="ui-glyph" data-glyph="camera" aria-hidden="true"></span>开启摄像头</button>
+      <button type="button" data-action="clip" class="sheet-secondary"><span class="ui-glyph" data-glyph="video" aria-hidden="true"></span>真人样片</button>
+      <button type="button" data-action="simulate" class="sheet-secondary"><span class="ui-glyph" data-glyph="effects" aria-hidden="true"></span>物理模拟</button>
+      <button type="button" id="stop" class="sheet-stop" disabled><span class="ui-glyph" data-glyph="power" aria-hidden="true"></span>结束</button>
+    </div>
+    <div class="sample-selector" role="group" aria-label="切换预录真人面部识别测试场景">
+      <button id="sampleSmile" type="button">微笑样片</button>
+      <button id="sampleLaugh" type="button">大笑样片</button>
+    </div>
+    <details class="advanced-tools"><summary>使用自己的视频文件 <span>仅本地读取</span></summary><label class="local-video-input">本地视频进行真人面部追踪
+      <input id="videoPicker" type="file" accept="video/mp4,video/webm,video/ogg,video/quicktime">
+      <span>MP4 / WebM · 仅本地处理</span>
+    </label></details>
+    <p id="status" class="status" role="status" aria-live="polite">点击「开启摄像头」体验真实表情，或点击模拟模式预览视觉效果。</p>
+    <div class="control-divider"></div>
+    <div class="sheet-section-header"><strong>特效色彩</strong><span id="paletteName">电光金</span></div>
+    <div class="palette-choices" role="group" aria-label="烟花色彩">
+      <button data-palette="gold" class="palette active" aria-pressed="true"><span class="palette-orb gold"></span><span>电光金</span><span class="ui-glyph" data-glyph="check" aria-hidden="true"></span></button>
+      <button data-palette="mint" class="palette" aria-pressed="false"><span class="palette-orb mint"></span><span>冰蓝光子</span><span class="ui-glyph" data-glyph="check" aria-hidden="true"></span></button>
+    </div>
+    <details class="advanced-tools firework-live-tools" id="fireworkPreviewTools">
+      <summary>六种烟花实时试放 <span>真正的动画 · 非截图</span></summary>
+      <p class="firework-preview-note">先开启摄像头或真人样片，再选择一款烟花点击试放。烟花会在当前人物画面中真实升空、绽放并与头部碰撞；正常的大笑自动变换不受影响。</p>
+      <div class="firework-preview-fields">
+        <label>烟花款式
+          <select id="previewFireworkPattern" aria-label="选择真实粒子烟花款式">
+            <option value="peony">牡丹 · 香槟金</option>
+            <option value="chrysanthemum">菊花 · 银白</option>
+            <option value="ring">光环 · 蓝紫</option>
+            <option value="willow">垂柳 · 琥珀</option>
+            <option value="strobe">碎闪 · 冰蓝</option>
+            <option value="double">双层 · 暖冷叠色</option>
+          </select>
+        </label>
+        <label>烟花大小
+          <select id="previewFireworkSize" aria-label="选择烟花整体大小">
+            <option value="M">M · 中型</option>
+            <option value="S">S · 小型</option>
+            <option value="L">L · 大型</option>
+            <option value="XL">XL · 超大型</option>
+          </select>
+        </label>
+      </div>
+      <button id="previewFireworkLaunch" class="firework-preview-launch" type="button">在当前人物画面中实时试放</button>
+      <p id="previewFireworkStatus" class="firework-preview-note" role="status" aria-live="polite">这是额外的手动验收工具，不会替代自动表情触发。</p>
+    </details>
+    <div class="control-divider"></div>
+    <details class="advanced-tools"><summary>识别与性能 <span>高级设置</span></summary>
+    <div class="sheet-section-header advanced-header"><strong>视觉与识别</strong><span>仅本机</span></div>
+    <label class="range-label">表情识别灵敏度 <output id="sensitivityValue">标准</output><input id="sensitivity" type="range" min="-20" max="20" value="0"></label>
+    <label class="checkbox"><input id="temporalLaugh" type="checkbox" checked> 增强大笑时序识别（实验，可关闭）</label>
+    <p class="overlay-settings-description">使用现有本地模型的多帧面部动作判断，缓解后仰时短暂的表情分数波动；不另行下载模型，也不读取麦克风。</p>
+    <label class="checkbox"><input id="debug" type="checkbox"> 显示真实人脸定位轮廓、碰撞点和 FPS（诊断）</label>
+    <label class="checkbox"><input id="gentle" type="checkbox"> 手动开启轻量模式（默认自动适配）</label>
+    </details>
+    <div class="control-divider"></div>
+    <div class="sheet-section-header"><strong>直播互动覆盖</strong><span id="overlayModeLabel">SIMULATOR / LOCAL</span></div>
+    <p class="overlay-settings-description">观众头像、评论、点赞与礼物全部为本地模拟，不使用真实 TikTok 账号或虚拟货币。每项可以独立开关。</p>
+    <label class="checkbox overlay-master"><input id="overlayEnabled" type="checkbox" checked> 显示 LIVE 互动层（关闭即纯净特效）</label>
+    <div class="overlay-toggles" id="overlayToggles">
+      <label class="checkbox"><input id="showComments" type="checkbox" checked> 评论弹幕</label>
+      <label class="checkbox"><input id="showLikes" type="checkbox" checked> 点赞与浮心</label>
+      <label class="checkbox"><input id="showGifts" type="checkbox" checked> 礼物动画</label>
+      <label class="checkbox"><input id="showJoins" type="checkbox" checked> 观众进场</label>
+    </div>
+    <label class="checkbox"><input id="reactiveChat" type="checkbox" checked> 特效联动模拟评论</label>
+    <label class="checkbox"><input id="autoOverlay" type="checkbox"> 自动播放模拟互动</label>
+    <p id="manualEventFeedback" class="manual-event-feedback" role="status" aria-live="polite">下方是手动测试按钮：点击后收起面板，在直播画面查看模拟效果；清空操作留在本页。</p>
+    <div class="event-buttons" role="group" aria-label="手动触发直播模拟事件">
+      <button type="button" data-live-test="chat"><span class="ui-glyph" data-glyph="comment" aria-hidden="true"></span>评论</button>
+      <button type="button" data-live-test="like"><span class="ui-glyph" data-glyph="heart-solid" aria-hidden="true"></span>点赞</button>
+      <button type="button" data-live-test="likeBurst"><span class="ui-glyph" data-glyph="heart-solid" aria-hidden="true"></span>连击点赞</button>
+      <button type="button" data-live-test="gift"><span class="ui-glyph" data-glyph="gift-color" aria-hidden="true"></span>礼物</button>
+      <button type="button" data-live-test="join"><span class="ui-glyph" data-glyph="join" aria-hidden="true"></span>进场</button>
+      <button id="clearOverlay" type="button"><span class="ui-glyph" data-glyph="trash" aria-hidden="true"></span>清空互动</button>
+    </div>
+    <div class="overlay-mini-stats" id="overlayMiniStats">本地事件：0 · 未连接直播服务</div>
+    <p class="sheet-privacy">只使用摄像头画面做人脸动作识别，不读取麦克风；停止后释放视频轨道。模拟模式不是实际人脸测试。</p>
+  </aside>
+</main>
+<script type="module" src="./src/app.js"></script>
+<script type="module" src="./src/live-ui.js"></script>
+</body>
+</html>

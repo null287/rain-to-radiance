@@ -1,0 +1,32 @@
+# Downloaded browser SDK, WebAssembly, model and maps are reproducible artifacts.
+vendor/*
+!vendor/LICENSE
+!vendor/NOTICE
+!vendor/manifest.json
+
+# Local downloads, temporary files and test artifacts.
+work/
+node_modules/
+# Edge browser test profiles may contain session data; never include in source control.
+tests/browser-profile*/
+tests/*.png
+tests/*.json
+# Local historical copies contain working notes and should not become public source.
+_v*_backup_*/
+__pycache__/
+*.py[cod]
+*.log
+test-results/
+playwright-report/
+
+# Private capture material is never part of the public source package.
+screenshots/
+recordings/
+private/
+
+# Local configuration and operating-system files.
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
